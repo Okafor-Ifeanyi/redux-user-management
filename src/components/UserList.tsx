@@ -1,18 +1,32 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers } from "../redux/user/userSlice";
 import { RootState, AppDispatch } from "../redux/store";
 import UserCard from "./UserCard";
 import { Link } from "react-router-dom";
 import { CardBackground } from "./Layout";
+import { addUser } from "../redux/user/userSlice";
 
 const UserList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { users, loading } = useSelector((state: RootState) => state.users);
 
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/users"
+      );
+      const users = await response.json();
+      users.forEach((user: any) => dispatch(addUser(user)));
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
   useEffect(() => {
-    dispatch(fetchUsers());
-  }, [dispatch]);
+    if (users.length === 0) {
+      fetchUsers();
+    }
+  }, [fetchUsers, users.length]);
 
   return (
     <div className="main">

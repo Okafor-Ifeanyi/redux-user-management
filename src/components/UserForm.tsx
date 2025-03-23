@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { addUser, updateUser } from "../redux/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser, updateUser, User } from "../redux/user/userSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { FormBackground } from "./Layout";
+import { RootState } from "../redux/store";
 // import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const UserForm: React.FC = () => {
@@ -11,8 +12,9 @@ const UserForm: React.FC = () => {
 //   const queryClient = useQueryClient();
   const { id } = useParams<{ id: string }>();
 
-  const [user, setUser] = useState({ id: id ? Number(id) : Date.now(), name: "", email: "", address: { street: "", city: "" } });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { users } = useSelector((state: RootState) => state.users);
+  
+  const [user, setUser] = useState({ id: id ? Number(id) : users.length, name: "", email: "", address: { street: "", city: "" } });
 
 //   // Mutation for adding a user
 //   const mutation = useMutation({
@@ -23,17 +25,26 @@ const UserForm: React.FC = () => {
 //     },
 //   });
 
+    useEffect(() => {
+        if (id) {
+            const existingUser = users.find((user: User) => user.id === Number(id));
+            if (existingUser) {
+                setUser(existingUser);
+            }
+        }
+    }, [id, users]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     id ? dispatch(updateUser(user)) : dispatch(addUser(user));
-    setIsSubmitted(true);
+    navigate("/users");
   };
   
-  useEffect(() => {
-    if (isSubmitted) {
-        // navigate("/users");
-    }
-  }, [isSubmitted, navigate]);
+//   useEffect(() => {
+//     if (isSubmitted) {
+//         // navigate("/users");
+//     }
+//   }, [isSubmitted, navigate]);
 
   return (
     <>

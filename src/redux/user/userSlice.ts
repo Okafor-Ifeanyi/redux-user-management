@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
 
 export interface User {
   id: number;
@@ -19,10 +18,10 @@ const initialState: UserState = {
 };
 
 // Async thunk to fetch users
-export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
-  const response = await axios.get("https://jsonplaceholder.typicode.com/users");
-  return response.data;
-});
+// export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
+//   const response = await axios.get("https://jsonplaceholder.typicode.com/users");
+//   return response.data;
+// });
 
 
 const userSlice = createSlice({
@@ -32,9 +31,7 @@ const userSlice = createSlice({
     addUser: (state, action) => {
       state.users.push(action.payload);
       console.log(state.users.length);
-      console.log(state)
-      console.log(state.users)
-      console.log(action)
+      console.log(state.users);
     },
     updateUser: (state, action) => {
       const index = state.users.findIndex((user) => user.id === action.payload.id);
@@ -47,19 +44,19 @@ const userSlice = createSlice({
       state.users = state.users.filter((user) => user.id !== action.payload);
     },
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchUsers.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(fetchUsers.fulfilled, (state, action) => {
-        state.loading = false;
-        state.users = action.payload;
-      })
-      .addCase(fetchUsers.rejected, (state) => {
-        state.loading = false;
-      });
-  },
+//   extraReducers: (builder) => {
+//     builder
+//       .addCase(fetchUsers.pending, (state) => {
+//         state.loading = true;
+//       })
+//       .addCase(fetchUsers.fulfilled, (state, action) => {
+//         state.loading = false;
+//         state.users = action.payload;
+//       })
+//       .addCase(fetchUsers.rejected, (state) => {
+//         state.loading = false;
+//       });
+//   },
 });
 
 export const { addUser, updateUser, deleteUser } = userSlice.actions;
