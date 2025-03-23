@@ -24,18 +24,24 @@ export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
   return response.data;
 });
 
+
 const userSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
     addUser: (state, action) => {
       state.users.push(action.payload);
+      console.log(state.users.length);
+      console.log(state)
+      console.log(state.users)
+      console.log(action)
     },
     updateUser: (state, action) => {
       const index = state.users.findIndex((user) => user.id === action.payload.id);
       if (index !== -1) {
         state.users[index] = action.payload;
       }
+      console.log(state.users);
     },
     deleteUser: (state, action) => {
       state.users = state.users.filter((user) => user.id !== action.payload);

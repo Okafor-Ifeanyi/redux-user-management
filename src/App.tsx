@@ -6,7 +6,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        
         <Route path="/users" element={<UserList />} />
         <Route path="/add-user" element={<UserForm />} />
         <Route path="/edit-user/:id" element={<UserForm />} />
