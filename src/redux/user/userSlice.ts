@@ -43,6 +43,9 @@ const userSlice = createSlice({
     deleteUser: (state, action) => {
       state.users = state.users.filter((user) => user.id !== action.payload);
     },
+    setLoading: (state, action) => {
+        state.loading = action.payload;
+      },
   },
 //   extraReducers: (builder) => {
 //     builder
@@ -59,5 +62,5 @@ const userSlice = createSlice({
 //   },
 });
 
-export const { addUser, updateUser, deleteUser } = userSlice.actions;
+export const { addUser, updateUser, deleteUser, setLoading } = userSlice.actions;
 export default userSlice.reducer;

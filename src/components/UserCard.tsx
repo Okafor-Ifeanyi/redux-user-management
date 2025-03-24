@@ -22,6 +22,8 @@ const UserCard: React.FC<Props> = ({ user }) => {
                     <Link to={`/edit-user/${user.id}`}><button>Edit</button></Link>
                     <button onClick={() => dispatch(deleteUser(user.id))}>Delete</button>
                 </div>
+                <div className="details-user"><Link to={`/users/${user.id}`} ><button>Details</button></Link></div>
+
             </article>
         </div>
     </>

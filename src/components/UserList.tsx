@@ -4,7 +4,7 @@ import { RootState, AppDispatch } from "../redux/store";
 import UserCard from "./UserCard";
 import { Link } from "react-router-dom";
 import { CardBackground } from "./Layout";
-import { addUser } from "../redux/user/userSlice";
+import { addUser, setLoading } from "../redux/user/userSlice";
 
 const UserList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -12,6 +12,7 @@ const UserList: React.FC = () => {
 
   const fetchUsers = async () => {
     try {
+      dispatch(setLoading(true));
       const response = await fetch(
         "https://jsonplaceholder.typicode.com/users"
       );
@@ -19,6 +20,8 @@ const UserList: React.FC = () => {
       users.forEach((user: any) => dispatch(addUser(user)));
     } catch (error) {
       console.error("Error fetching users:", error);
+    } finally {
+        dispatch(setLoading(false)); // Set loading to false after fetching
     }
   };
 
