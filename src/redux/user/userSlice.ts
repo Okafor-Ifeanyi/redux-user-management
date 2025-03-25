@@ -29,7 +29,9 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     addUser: (state, action) => {
-      state.users.push(action.payload);
+      if (!state.users.some(user => user.id === action.payload.id)) {
+        state.users.push(action.payload);
+      }
       console.log(state.users.length);
       console.log(state.users);
     },

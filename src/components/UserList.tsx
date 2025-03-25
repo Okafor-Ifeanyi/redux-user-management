@@ -18,10 +18,12 @@ const UserList: React.FC = () => {
       );
       const users = await response.json();
       users.forEach((user: any) => dispatch(addUser(user)));
+      dispatch(setLoading(false));
     } catch (error) {
       console.error("Error fetching users:", error);
     } finally {
-        dispatch(setLoading(false)); // Set loading to false after fetching
+        setTimeout(() => dispatch(setLoading(false)), 0);
+        // dispatch(setLoading(false)); // Set loading to false after fetching
     }
   };
 
